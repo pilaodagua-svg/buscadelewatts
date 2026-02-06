@@ -1,95 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>PC PSU Price Finder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSU Search</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background: #343a40;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        .search-bar {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .search-bar input {
-            padding: 10px;
-            width: 70%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-bar button {
-            padding: 10px;
-            border: none;
-            background: #007bff;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-bar button:hover {
-            background: #0056b3;
-        }
-        .links {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .links a {
-            margin: 10px 0;
-            padding: 10px 15px;
-            text-decoration: none;
-            color: #fff;
-            background: #28a745;
-            border-radius: 4px;
-            transition: background 0.3s ease;
-        }
-        .links a:hover {
-            background: #218838;
-        }
+        body { font-family: Arial, sans-serif; }
+        input { margin: 20px 0; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>PC PSU Price Finder</h1>
-    </header>
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" id="search" placeholder="Type a PSU model (e.g., Corsair, EVGA)...">
-            <button onclick="searchPSU()">Search</button>
-        </div>
-        <h2>Search Popular E-commerce Sites:</h2>
-        <div class="links">
-            <a href="https://www.amazon.com/s?k=pc+psu" target="_blank">Search Amazon</a>
-            <a href="https://www.newegg.com/p/pl?d=pc+psu" target="_blank">Search Newegg</a>
-            <a href="https://www.bestbuy.com/site/searchpage.jsp?st=pc+psu" target="_blank">Search Best Buy</a>
-        </div>
-    </div>
+    <h1>PSU Search</h1>
+    <input type="text" id="search" placeholder="Search for PSUs..." />
+    <div id="results"></div>
+
     <script>
-        function searchPSU() {
-            const query = document.getElementById('search').value;
-            if (query) {
-                alert('Use the links below to search for your PSU model: \nAmazon, Newegg, BestBuy');
-            } else {
-                alert('Please type a PSU model in the search bar.');
-            }
+        const psus = [
+            { name: 'PSU A', year: 2025 },
+            { name: 'PSU B', year: 2027 },
+            { name: 'PSU C', year: 2028 }
+        ];
+
+        document.getElementById('search').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const results = psus.filter(psu => psu.name.toLowerCase().includes(query) && psu.year > 2026);
+            displayResults(results);
+        });
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            results.forEach(psu => {
+                const div = document.createElement('div');
+                div.textContent = `${psu.name} (${psu.year})`;
+                resultsDiv.appendChild(div);
+            });
         }
     </script>
 </body>
