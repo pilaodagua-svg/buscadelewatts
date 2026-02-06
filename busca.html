@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Busca Multi-Loja</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    input {
+      width: 400px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px 20px;
+      margin-left: 10px;
+      background: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #005a9e;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+    .loja {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Busca Multi-Loja</h1>
+  <input type="text" id="produto" placeholder="Digite o nome do produto">
+  <button onclick="buscar()">Pesquisar em todas</button>
+
+  <div class="grid" id="links"></div>
+
+  <script>
+    const lojas = {
+      "Pichau": "https://www.pichau.com.br/search?q=",
+      "Terabyte": "https://www.terabyteshop.com.br/busca?str=",
+      "KaBuM!": "https://www.kabum.com.br/busca?query=",
+      "Amazon": "https://www.amazon.com.br/s?k=",
+      "Mercado Livre": "https://lista.mercadolivre.com.br/",
+      "Hardstore": "https://www.hardstore.com.br/busca?search=",
+      "InPower": "https://www.inpower.com.br/busca?search=",
+      "Gigantec": "https://www.gigantec.com.br/busca?search=",
+      "MaxPC": "https://www.maxpc.com.br/search?q=",
+      "FGTEC": "https://www.fgtec.com.br/busca?search=",
+      "Oficina dos Bits": "https://www.oficinadosbits.com.br/busca?search=",
+      "PC Gamer Brasília": "https://www.pcgamerbrasilia.com.br/busca?search="
+      // adicione as demais lojas aqui
+    };
+
+    function buscar() {
+      const termo = document.getElementById("produto").value;
+      const lista = document.getElementById("links");
+      lista.innerHTML = "";
+      for (const [nome, url] of Object.entries(lojas)) {
+        const link = url + encodeURIComponent(termo);
+        // cria card
+        const div = document.createElement("div");
+        div.className = "loja";
+        div.textContent = nome;
+        div.onclick = () => window.open(link, "_blank");
+        lista.appendChild(div);
+        // abre automaticamente em nova aba
+        window.open(link, "_blank");
+      }
+    }
+  </script>
+</body>
+</html>
