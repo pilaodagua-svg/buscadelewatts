@@ -3,152 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BovinoTech Santiago</title>
+    <title>BovinoTech Santiago | Gestão de Rebanho</title>
     <style>
-        :root { --primary: #2e7d32; --alert: #d32f2f; --bg: #f1f8e9; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
-        
-        .container { max-width: 600px; margin: auto; }
-        
-        /* Cabeçalho */
-        header { text-align: center; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        h1 { color: var(--primary); margin: 0; font-size: 1.8rem; }
-        .subtitle { color: #666; font-size: 0.9rem; margin-top: 5px; }
+        :root {
+            --primary: #1b5e20;
+            --secondary: #37474f;
+            --accent: #2e7d32;
+            --danger: #c62828;
+            --success: #2e7d32;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+        }
 
-        /* Botões */
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; transition: 0.3s; }
-        .btn-add { background: var(--primary); color: white; box-shadow: 0 4px 0 #1b5e20; }
-        .btn-add:active { transform: translateY(4px); box-shadow: none; }
-        
-        /* Cartão do Animal */
-        .card { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; }
-        .card img { width: 100%; height: 250px; object-fit: cover; }
-        
-        .card-body { padding: 15px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .price { font-size: 1.4rem; color: var(--primary); font-weight: 800; }
-        
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
-        
-        /* Estilos para Veterinários */
-        .vet-badge { background: #e3f2fd; color: #1565c0; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
-        .status-sick { background: #ffebee; color: #c62828; } /* Vermelho para doentes */
-        .status-healthy { background: #e8f5e9; color: #2e7d32; } /* Verde para saudáveis */
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            padding: 20px; 
+            color: var(--secondary); 
+            line-height: 1.6;
+        }
 
-        .btn-vet { background: #fff; border: 2px solid #1565c0; color: #1565c0; margin-top: 10px; padding: 8px; }
-        .btn-vet:hover { background: #e3f2fd; }
+        .container { max-width: 900px; margin: auto; }
 
+        /* Header Profissional */
+        header { 
+            background: linear-gradient(135deg, var(--primary), #003300);
+            color: white; 
+            padding: 40px 20px; 
+            border-radius: 20px; 
+            text-align: center; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+
+        h1 { margin: 0; font-size: 2.2rem; letter-spacing: -1px; }
+        .subtitle { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
+
+        .btn-main {
+            display: inline-block;
+            background: #fff;
+            color: var(--primary);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+
+        /* Feed e Cards */
+        #feed { display: grid; gap: 20px; }
+
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            display: flex; 
+            overflow: hidden; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .card-img { width: 35%; position: relative; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .card-content { padding: 20px; width: 65%; display: flex; flex-direction: column; justify-content: space-between; }
+
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        
+        .price-tag { 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: var(--primary); 
+            margin: 0;
+        }
+
+        /* Grid de Informações Visíveis */
+        .data-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            margin: 15px 0;
+        }
+
+        .data-item { 
+            background: #f8f9fa; 
+            padding: 10px; 
+            border-radius: 8px; 
+            text-align: center;
+            border: 1px solid #edf0f2;
+        }
+        .data-label { font-size: 0.7rem; text-transform: uppercase; color: #888; display: block; }
+        .data-value { font-size: 1rem; font-weight: 700; color: #333; }
+
+        .badge { 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+        }
+        .healthy { background: #e8f5e9; color: #2e7d32; }
+        .sick { background: #ffebee; color: #c62828; }
+
+        .card-footer { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-action { 
+            flex: 1; 
+            padding: 10px; 
+            border-radius: 8px; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            transition: 0.2s;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-vet { background: #eceff1; color: var(--secondary); }
+        .btn-map { background: #e3f2fd; color: #1565c0; }
+
+        @media (max-width: 600px) {
+            .card { flex-direction: column; }
+            .card-img { width: 100%; height: 200px; }
+            .card-content { width: 100%; box-sizing: border-box; }
+            .data-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    
     <header>
-        <h1>🐮 BovinoTech Santiago</h1>
-        <p class="subtitle">Conectando Produtores e Veterinários no RS</p>
-        <div style="text-align: left; font-size: 0.9rem; margin-top: 15px; color: #555;">
-            <p>✅ <strong>Para o Produtor:</strong> Calcule o peso do gado apenas com uma fita métrica e anuncie para a região.</p>
-            <p>✅ <strong>Para o Veterinário:</strong> Acompanhe o rebanho e use a calculadora automática de dosagem.</p>
-        </div>
-
-        <a href="https://docs.google.com/spreadsheets/d/1siJAnVoA3KwnoQWYtkB-wODIb1j1_YP2VHC-djXnFtg/edit?usp=sharing" target="_blank" class="btn btn-add">
-            ➕ Anunciar Animal (Preencher Ficha)
-        </a>
+        <h1>BovinoTech Santiago</h1>
+        <p class="subtitle">Monitoramento e Comercialização de Gado de Corte</p>
+        <a href="SUA_URL_DO_FORMULARIO" target="_blank" class="btn-main">➕ Cadastrar Novo Animal</a>
     </header>
 
     <div id="feed">
-        <p style="text-align:center; color:#777;">Carregando rebanho...</p>
+        <p style="text-align:center;">🔍 Sincronizando com a base de dados...</p>
     </div>
-
 </div>
 
 <script>
-    // ⚠️ IMPORTANTE: Cole seu link CSV do Google Sheets aqui (File > Share > Publish to Web > CSV)
-    const SHEET_URL = https://docs.google.com/spreadsheets/d/1siJAnVoA3KwnoQWYtkB-wODIb1j1_YP2VHC-djXnFtg/edit?usp=drivesdk ;
+    // URL CSV: Lembre de usar a versão "Publicar na Web" do Google Sheets como CSV
+    const SHEET_URL = "SUA_URL_AQUI_TERMINANDO_COM_output=csv";
+
     async function loadCows() {
         try {
             const response = await fetch(SHEET_URL);
             const data = await response.text();
-            const rows = data.split('\n').slice(1); // Ignora o cabeçalho
+            const rows = data.split('\n').filter(row => row.trim() !== '').slice(1);
             
             const feed = document.getElementById('feed');
             feed.innerHTML = '';
 
             rows.forEach(row => {
-                // Dividir colunas (CSV simples)
-                const cols = row.split(',');
+                // Tratamento básico para evitar erros com vírgulas dentro de aspas (preços)
+                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
                 if (cols.length < 5) return;
 
-                // Mapeamento das Colunas (Ajuste conforme seu Google Sheets)
-                // 0=Data, 1=Foto, 2=Preço, 3=Peito(cm), 4=Comprimento(cm), 5=Coords, 6=Saúde
-                const photo = cols[1];
-                const price = cols[2];
-                const girthCm = parseFloat(cols[3]);
-                const lenCm = parseFloat(cols[4]);
-                const coords = cols[5];
-                const health = cols[6] ? cols[6].trim() : "Saudável";
+                const photo = cols[1].replace(/"/g, '');
+                const price = cols[2].replace(/"/g, '');
+                const girth = parseFloat(cols[3]);
+                const len = parseFloat(cols[4]);
+                const coords = cols[5] ? cols[5].replace(/"/g, '') : "";
+                const health = (cols[6] || "Saudável").trim().replace(/"/g, '');
 
-                // 🧮 CÁLCULO DE PESO (Fórmula Schaeffer Adaptada para CM)
-                // Peso (kg) = (Peito^2 x Comprimento) / 11900 (Constante média para gado de corte)
-                let weightKg = 0;
-                if(girthCm && lenCm) {
-                    weightKg = ((Math.pow(girthCm, 2) * lenCm) / 11900).toFixed(1);
-                }
-
-                // Estilo baseado na saúde
-                const statusClass = health.toLowerCase().includes('doente') ? 'status-sick' : 'status-healthy';
+                // Cálculos
+                const weightKg = ((Math.pow(girth, 2) * len) / 11900).toFixed(1);
+                const arrobas = (weightKg / 15).toFixed(1);
+                const isSick = health.toLowerCase().includes('doente');
 
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
-                    <img src="${photo}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Foto'">
-                    
-                    <div class="card-body">
-                        <div class="card-header">
-                            <span class="price">R$ ${price}</span>
-                            <span class="vet-badge ${statusClass}">${health}</span>
+                    <div class="card-img">
+                        <img src="${photo}" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545e9d53?q=80&w=400'">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-top">
+                            <h2 class="price-tag">R$ ${price}</h2>
+                            <span class="badge ${isSick ? 'sick' : 'healthy'}">${health}</span>
                         </div>
 
-                        <div class="stats-grid">
-                            <div><strong>⚖️ Peso Est.:</strong><br> ${weightKg} kg</div>
-                            <div><strong>📏 Medidas:</strong><br> ${girthCm} x ${lenCm} cm</div>
+                        <div class="data-grid">
+                            <div class="data-item">
+                                <span class="data-label">Peso Est.</span>
+                                <span class="data-value">${weightKg} kg</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-label">Arrobas</span>
+                                <span class="data-value">${arrobas} @</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-label">Medidas</span>
+                                <span class="data-value">${girth}x${len}</span>
+                            </div>
                         </div>
 
-                        <button class="btn btn-vet" onclick="calcDose(${weightKg})">
-                            💉 Vet: Calcular Dosagem
-                        </button>
-
-                        <a href="https://www.google.com/maps/search/?api=1&query=${coords}" target="_blank" class="btn" style="background:#f0f0f0; color:#333; margin-top:5px;">
-                            📍 Ver Localização no Mapa
-                        </a>
+                        <div class="card-footer">
+                            <button class="btn-action btn-vet" onclick="calcDose(${weightKg})">💉 Dosagem</button>
+                            <a href="https://www.google.com/maps?q=${coords}" target="_blank" class="btn-action btn-map">📍 Localização</a>
+                        </div>
                     </div>
                 `;
                 feed.prepend(card);
             });
-        } catch (error) {
-            document.getElementById('feed').innerHTML = '<p style="text-align:center; color:red">Erro ao carregar dados. Verifique o link da planilha.</p>';
+        } catch (e) {
+            feed.innerHTML = "<p style='color:red; text-align:center;'>Erro ao carregar dados. Verifique a conexão com a planilha.</p>";
         }
     }
 
-    // 💉 Função para Veterinários
     function calcDose(weight) {
-        if(weight <= 0) {
-            alert("Peso inválido para cálculo.");
-            return;
-        }
-        // Pergunta a dosagem da bula
-        let dosePerKg = prompt(`O peso estimado é ${weight} kg.\n\nQual a dose recomendada em ml por kg? (Ex: Digite 0.05 para 1ml/20kg)`);
-        
-        if(dosePerKg) {
-            dosePerKg = parseFloat(dosePerKg.replace(',', '.')); // Aceita vírgula ou ponto
-            let totalDose = (weight * dosePerKg).toFixed(2);
-            alert(`📋 RECEITA SUGERIDA:\n\nPara um animal de ${weight} kg:\nAdministrar 👉 ${totalDose} ml 👈 do medicamento.`);
+        let dose = prompt(`Peso: ${weight}kg. Qual a recomendação da bula (ml por kg)?\nEx: 0.05 para 1ml a cada 20kg`);
+        if(dose) {
+            let res = (weight * parseFloat(dose.replace(',', '.'))).toFixed(2);
+            alert(`✅ Dosagem Recomendada: ${res} ml`);
         }
     }
 
     loadCows();
 </script>
-
 </body>
 </html>
