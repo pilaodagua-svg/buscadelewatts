@@ -1,95 +1,155 @@
-Building a "Cow Spotting" app for Santiago, RS is a fun and unique project! To achieve this, you’ll need to move beyond simple HTML and use the Google Maps JavaScript API for the map, along with a way to handle file uploads.
-
-Since we are in 2026, many of these integrations are "low-code," but you will still need a basic backend (like Firebase or Supabase) to store the pictures and coordinates permanently.
-🏗️ The Architecture
-
-To make this work, your app needs three main parts:
-
-    The Map: Centered on Santiago, RS (approx. −29.19, −54.86).
-
-    The Form: Where users enter the price and upload a photo.
-
-    The Database: To save the location (lat/lng), the image URL, and the price.
-
-💻 Frontend Code Template
-
-Here is a simplified version of how the interface and map logic would look.
-
-    Note: You will need a Google Maps API Key from the Google Cloud Console to make the map appear.
-
-HTML
-
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Santiago Cow Finder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BovinoTech Santiago</title>
     <style>
-        #map { height: 400px; width: 100%; border-radius: 8px; }
-        .form-container { padding: 20px; background: #f4f4f4; border-radius: 8px; margin-top: 10px; }
-        input { display: block; margin: 10px 0; width: 100%; padding: 8px; }
+        :root { --primary: #2e7d32; --alert: #d32f2f; --bg: #f1f8e9; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+        
+        .container { max-width: 600px; margin: auto; }
+        
+        /* Cabeçalho */
+        header { text-align: center; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h1 { color: var(--primary); margin: 0; font-size: 1.8rem; }
+        .subtitle { color: #666; font-size: 0.9rem; margin-top: 5px; }
+
+        /* Botões */
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; transition: 0.3s; }
+        .btn-add { background: var(--primary); color: white; box-shadow: 0 4px 0 #1b5e20; }
+        .btn-add:active { transform: translateY(4px); box-shadow: none; }
+        
+        /* Cartão do Animal */
+        .card { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative; }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        
+        .card-body { padding: 15px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .price { font-size: 1.4rem; color: var(--primary); font-weight: 800; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px; font-size: 0.9rem; }
+        
+        /* Estilos para Veterinários */
+        .vet-badge { background: #e3f2fd; color: #1565c0; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+        .status-sick { background: #ffebee; color: #c62828; } /* Vermelho para doentes */
+        .status-healthy { background: #e8f5e9; color: #2e7d32; } /* Verde para saudáveis */
+
+        .btn-vet { background: #fff; border: 2px solid #1565c0; color: #1565c0; margin-top: 10px; padding: 8px; }
+        .btn-vet:hover { background: #e3f2fd; }
+
     </style>
 </head>
 <body>
-    <h1>🐮 Santiago Cow Spotter (RS, Brazil)</h1>
-    <div id="map"></div>
 
-    <div class="form-container">
-        <h3>Report a Cow</h3>
-        <input type="number" id="price" placeholder="Price (R$)">
-        <input type="file" id="photo" accept="image/*">
-        <p><i>Click on the map to set the cow's location.</i></p>
-        <button onclick="saveCow()">Submit Spotting</button>
+<div class="container">
+    
+    <header>
+        <h1>🐮 BovinoTech Santiago</h1>
+        <p class="subtitle">Conectando Produtores e Veterinários no RS</p>
+        <div style="text-align: left; font-size: 0.9rem; margin-top: 15px; color: #555;">
+            <p>✅ <strong>Para o Produtor:</strong> Calcule o peso do gado apenas com uma fita métrica e anuncie para a região.</p>
+            <p>✅ <strong>Para o Veterinário:</strong> Acompanhe o rebanho e use a calculadora automática de dosagem.</p>
+        </div>
+
+        <a href="SEU_LINK_DO_GOOGLE_FORMS_AQUI" target="_blank" class="btn btn-add">
+            ➕ Anunciar Animal (Preencher Ficha)
+        </a>
+    </header>
+
+    <div id="feed">
+        <p style="text-align:center; color:#777;">Carregando rebanho...</p>
     </div>
 
-    <script>
-        let map;
-        let selectedCoords = null;
-        let marker = null;
+</div>
 
-        async function initMap() {
-            // Coordinates for Santiago, RS
-            const santiago = { lat: -29.1919, lng: -54.8669 };
+<script>
+    // ⚠️ IMPORTANTE: Cole seu link CSV do Google Sheets aqui (File > Share > Publish to Web > CSV)
+    const SHEET_URL = "SEU_LINK_CSV_DO_GOOGLE_SHEETS_AQUI";
+
+    async function loadCows() {
+        try {
+            const response = await fetch(SHEET_URL);
+            const data = await response.text();
+            const rows = data.split('\n').slice(1); // Ignora o cabeçalho
             
-            const { Map } = await google.maps.importLibrary("maps");
-            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+            const feed = document.getElementById('feed');
+            feed.innerHTML = '';
 
-            map = new Map(document.getElementById("map"), {
-                zoom: 13,
-                center: santiago,
-                mapId: "YOUR_MAP_ID", // Required for Advanced Markers
-            });
+            rows.forEach(row => {
+                // Dividir colunas (CSV simples)
+                const cols = row.split(',');
+                if (cols.length < 5) return;
 
-            // Click listener to place a marker
-            map.addListener("click", (mapsMouseEvent) => {
-                selectedCoords = mapsMouseEvent.latLng.toJSON();
-                
-                if (marker) marker.setMap(null); // Remove old marker
-                
-                marker = new google.maps.Marker({
-                    position: mapsMouseEvent.latLng,
-                    map: map,
-                    title: "Cow found here!"
-                });
+                // Mapeamento das Colunas (Ajuste conforme seu Google Sheets)
+                // 0=Data, 1=Foto, 2=Preço, 3=Peito(cm), 4=Comprimento(cm), 5=Coords, 6=Saúde
+                const photo = cols[1];
+                const price = cols[2];
+                const girthCm = parseFloat(cols[3]);
+                const lenCm = parseFloat(cols[4]);
+                const coords = cols[5];
+                const health = cols[6] ? cols[6].trim() : "Saudável";
+
+                // 🧮 CÁLCULO DE PESO (Fórmula Schaeffer Adaptada para CM)
+                // Peso (kg) = (Peito^2 x Comprimento) / 11900 (Constante média para gado de corte)
+                let weightKg = 0;
+                if(girthCm && lenCm) {
+                    weightKg = ((Math.pow(girthCm, 2) * lenCm) / 11900).toFixed(1);
+                }
+
+                // Estilo baseado na saúde
+                const statusClass = health.toLowerCase().includes('doente') ? 'status-sick' : 'status-healthy';
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${photo}" onerror="this.src='https://via.placeholder.com/400?text=Sem+Foto'">
+                    
+                    <div class="card-body">
+                        <div class="card-header">
+                            <span class="price">R$ ${price}</span>
+                            <span class="vet-badge ${statusClass}">${health}</span>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div><strong>⚖️ Peso Est.:</strong><br> ${weightKg} kg</div>
+                            <div><strong>📏 Medidas:</strong><br> ${girthCm} x ${lenCm} cm</div>
+                        </div>
+
+                        <button class="btn btn-vet" onclick="calcDose(${weightKg})">
+                            💉 Vet: Calcular Dosagem
+                        </button>
+
+                        <a href="https://www.google.com/maps/search/?api=1&query=${coords}" target="_blank" class="btn" style="background:#f0f0f0; color:#333; margin-top:5px;">
+                            📍 Ver Localização no Mapa
+                        </a>
+                    </div>
+                `;
+                feed.prepend(card);
             });
+        } catch (error) {
+            document.getElementById('feed').innerHTML = '<p style="text-align:center; color:red">Erro ao carregar dados. Verifique o link da planilha.</p>';
         }
+    }
 
-        function saveCow() {
-            const price = document.getElementById('price').value;
-            const photo = document.getElementById('photo').files[0];
-
-            if (!selectedCoords || !price || !photo) {
-                alert("Please select a location on the map, enter a price, and upload a photo!");
-                return;
-            }
-
-            console.log("Saving Spotting:", { 
-                location: selectedCoords, 
-                price: price, 
-                imageName: photo.name 
-            });
-            alert("Cow reported successfully in Santiago!");
+    // 💉 Função para Veterinários
+    function calcDose(weight) {
+        if(weight <= 0) {
+            alert("Peso inválido para cálculo.");
+            return;
         }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+        // Pergunta a dosagem da bula
+        let dosePerKg = prompt(`O peso estimado é ${weight} kg.\n\nQual a dose recomendada em ml por kg? (Ex: Digite 0.05 para 1ml/20kg)`);
+        
+        if(dosePerKg) {
+            dosePerKg = parseFloat(dosePerKg.replace(',', '.')); // Aceita vírgula ou ponto
+            let totalDose = (weight * dosePerKg).toFixed(2);
+            alert(`📋 RECEITA SUGERIDA:\n\nPara um animal de ${weight} kg:\nAdministrar 👉 ${totalDose} ml 👈 do medicamento.`);
+        }
+    }
+
+    loadCows();
+</script>
+
 </body>
 </html>
