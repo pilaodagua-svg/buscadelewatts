@@ -1,230 +1,223 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BovinoTech Santiago | Gestão de Rebanho</title>
+    <title>Dashboard Agro Santiago - Brangus & Vacas de Descarte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #1b5e20;
-            --secondary: #37474f;
-            --accent: #2e7d32;
-            --danger: #c62828;
-            --success: #2e7d32;
-            --bg: #f4f7f6;
-            --card-bg: #ffffff;
-        }
-
-        body { 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            background: var(--bg); 
-            margin: 0; 
-            padding: 20px; 
-            color: var(--secondary); 
-            line-height: 1.6;
-        }
-
-        .container { max-width: 900px; margin: auto; }
-
-        /* Header Profissional */
-        header { 
-            background: linear-gradient(135deg, var(--primary), #003300);
-            color: white; 
-            padding: 40px 20px; 
-            border-radius: 20px; 
-            text-align: center; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            margin-bottom: 30px;
-        }
-
-        h1 { margin: 0; font-size: 2.2rem; letter-spacing: -1px; }
-        .subtitle { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
-
-        .btn-main {
-            display: inline-block;
-            background: #fff;
-            color: var(--primary);
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
-
-        /* Feed e Cards */
-        #feed { display: grid; gap: 20px; }
-
-        .card { 
-            background: var(--card-bg); 
-            border-radius: 16px; 
-            display: flex; 
-            overflow: hidden; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-        }
-
-        .card-img { width: 35%; position: relative; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; }
-
-        .card-content { padding: 20px; width: 65%; display: flex; flex-direction: column; justify-content: space-between; }
-
-        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
-        
-        .price-tag { 
-            font-size: 1.5rem; 
-            font-weight: 800; 
-            color: var(--primary); 
-            margin: 0;
-        }
-
-        /* Grid de Informações Visíveis */
-        .data-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
-            margin: 15px 0;
-        }
-
-        .data-item { 
-            background: #f8f9fa; 
-            padding: 10px; 
-            border-radius: 8px; 
-            text-align: center;
-            border: 1px solid #edf0f2;
-        }
-        .data-label { font-size: 0.7rem; text-transform: uppercase; color: #888; display: block; }
-        .data-value { font-size: 1rem; font-weight: 700; color: #333; }
-
-        .badge { 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-size: 0.75rem; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-        }
-        .healthy { background: #e8f5e9; color: #2e7d32; }
-        .sick { background: #ffebee; color: #c62828; }
-
-        .card-footer { display: flex; gap: 10px; margin-top: 10px; }
-        .btn-action { 
-            flex: 1; 
-            padding: 10px; 
-            border-radius: 8px; 
-            border: none; 
-            cursor: pointer; 
-            font-size: 0.85rem; 
-            font-weight: 600;
-            transition: 0.2s;
-            text-decoration: none;
-            text-align: center;
-        }
-        .btn-vet { background: #eceff1; color: var(--secondary); }
-        .btn-map { background: #e3f2fd; color: #1565c0; }
-
-        @media (max-width: 600px) {
-            .card { flex-direction: column; }
-            .card-img { width: 100%; height: 200px; }
-            .card-content { width: 100%; box-sizing: border-box; }
-            .data-grid { grid-template-columns: 1fr 1fr; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+       .agro-card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; transition: transform 0.2s; }
+       .agro-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+       .sidebar-green { background: #064e3b; }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 
-<div class="container">
-    <header>
-        <h1>BovinoTech Santiago</h1>
-        <p class="subtitle">Monitoramento e Comercialização de Gado de Corte</p>
-        <a href="SUA_URL_DO_FORMULARIO" target="_blank" class="btn-main">➕ Cadastrar Novo Animal</a>
+    <header class="sidebar-green text-white p-6 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight">Gestão Rural Santiago</h1>
+                <p class="text-green-200 text-sm">Monitoramento de Rebanho e Inteligência Climática</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-4">
+                <div class="bg-green-800 px-4 py-2 rounded-lg text-center">
+                    <span class="block text-xs uppercase text-green-300">Data Atual</span>
+                    <span id="data-display" class="font-bold"></span>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <div id="feed">
-        <p style="text-align:center;">🔍 Sincronizando com a base de dados...</p>
-    </div>
-</div>
+    <main class="container mx-auto p-4 md:p-8 flex-grow">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="agro-card p-6 border-l-8 border-black">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-xs font-bold uppercase">Terneiros Brangus Pretos</p>
+                        <h3 class="text-2xl font-black text-gray-800">120 <span class="text-sm font-normal text-gray-400 italic">cabeças</span></h3>
+                    </div>
+                    <i class="fas fa-bullseye text-gray-300 text-3xl"></i>
+                </div>
+            </div>
+            <div class="agro-card p-6 border-l-8 border-orange-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-xs font-bold uppercase">Vacas Velhas para Venda</p>
+                        <h3 class="text-2xl font-black text-gray-800">45 <span class="text-sm font-normal text-gray-400 italic">cabeças</span></h3>
+                    </div>
+                    <i class="fas fa-arrow-right-from-bracket text-orange-200 text-3xl"></i>
+                </div>
+            </div>
+            <div class="agro-card p-6 border-l-8 border-green-600">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-xs font-bold uppercase">Média Arroba RS (Vaca)</p>
+                        <h3 class="text-2xl font-black text-green-700">R$ 9,90 <span class="text-sm font-normal text-gray-400 italic">/kg</span></h3>
+                    </div>
+                    <i class="fas fa-chart-line text-green-200 text-3xl"></i>
+                </div>
+            </div>
+            <div class="agro-card p-6 border-l-8 border-blue-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-xs font-bold uppercase">Prob. Chuva Santiago</p>
+                        <h3 class="text-2xl font-black text-blue-700">70% <span class="text-sm font-normal text-gray-400 italic">hoje</span></h3>
+                    </div>
+                    <i class="fas fa-cloud-rain text-blue-200 text-3xl"></i>
+                </div>
+            </div>
+        </div>
 
-<script>
-    // URL CSV: Lembre de usar a versão "Publicar na Web" do Google Sheets como CSV
-    const SHEET_URL = "SUA_URL_AQUI_TERMINANDO_COM_output=csv";
-
-    async function loadCows() {
-        try {
-            const response = await fetch(SHEET_URL);
-            const data = await response.text();
-            const rows = data.split('\n').filter(row => row.trim() !== '').slice(1);
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            const feed = document.getElementById('feed');
-            feed.innerHTML = '';
-
-            rows.forEach(row => {
-                // Tratamento básico para evitar erros com vírgulas dentro de aspas (preços)
-                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
-                if (cols.length < 5) return;
-
-                const photo = cols[1].replace(/"/g, '');
-                const price = cols[2].replace(/"/g, '');
-                const girth = parseFloat(cols[3]);
-                const len = parseFloat(cols[4]);
-                const coords = cols[5] ? cols[5].replace(/"/g, '') : "";
-                const health = (cols[6] || "Saudável").trim().replace(/"/g, '');
-
-                // Cálculos
-                const weightKg = ((Math.pow(girth, 2) * len) / 11900).toFixed(1);
-                const arrobas = (weightKg / 15).toFixed(1);
-                const isSick = health.toLowerCase().includes('doente');
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-img">
-                        <img src="${photo}" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545e9d53?q=80&w=400'">
+            <div class="lg:col-span-2 space-y-8">
+                <div class="agro-card overflow-hidden shadow-sm">
+                    <div class="bg-gray-50 p-5 border-b flex justify-between items-center">
+                        <h2 class="font-bold text-gray-700 flex items-center">
+                            <i class="fas fa-clipboard-check mr-2 text-green-600"></i> Inventário de Vendas 2026
+                        </h2>
+                        <span class="text-xs bg-black text-white px-2 py-1 rounded font-bold uppercase tracking-tighter">Atualizado</span>
                     </div>
-                    <div class="card-content">
-                        <div class="card-top">
-                            <h2 class="price-tag">R$ ${price}</h2>
-                            <span class="badge ${isSick ? 'sick' : 'healthy'}">${health}</span>
-                        </div>
+                    <div class="overflow-x-auto text-sm">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-600 uppercase text-xs font-bold">
+                                    <th class="p-4">Lote / Identificação</th>
+                                    <th class="p-4">Categoria Animal</th>
+                                    <th class="p-4">Peso Estimado</th>
+                                    <th class="p-4">Destino</th>
+                                    <th class="p-4">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-green-50">
+                                    <td class="p-4 font-semibold text-gray-900 italic">Lote 01-A</td>
+                                    <td class="p-4">Terneiro Brangus Preto (Desmama)</td>
+                                    <td class="p-4">190 kg</td>
+                                    <td class="p-4"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-bold">Remate Outono</span></td>
+                                    <td class="p-4"><button class="text-red-600 font-bold hover:underline">Editar</button></td>
+                                </tr>
+                                <tr class="hover:bg-green-50">
+                                    <td class="p-4 font-semibold text-gray-900 italic">Lote Vaca-04</td>
+                                    <td class="p-4">Vaca Velha (Descarte)</td>
+                                    <td class="p-4">440 kg</td>
+                                    <td class="p-4"><span class="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs font-bold">Abate Direto</span></td>
+                                    <td class="p-4"><button class="text-red-600 font-bold hover:underline">Editar</button></td>
+                                </tr>
+                                <tr class="hover:bg-green-50">
+                                    <td class="p-4 font-semibold text-gray-900 italic">Lote Vaca-05</td>
+                                    <td class="p-4">Vaca Velha (Descarte)</td>
+                                    <td class="p-4">410 kg</td>
+                                    <td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">Invernada</span></td>
+                                    <td class="p-4"><button class="text-red-600 font-bold hover:underline">Editar</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                        <div class="data-grid">
-                            <div class="data-item">
-                                <span class="data-label">Peso Est.</span>
-                                <span class="data-value">${weightKg} kg</span>
-                            </div>
-                            <div class="data-item">
-                                <span class="data-label">Arrobas</span>
-                                <span class="data-value">${arrobas} @</span>
-                            </div>
-                            <div class="data-item">
-                                <span class="data-label">Medidas</span>
-                                <span class="data-value">${girth}x${len}</span>
-                            </div>
+                <div class="agro-card p-6">
+                    <h2 class="font-bold text-gray-800 mb-6 flex items-center border-b pb-4">
+                        <i class="fas fa-rss mr-3 text-orange-500"></i> Boletim de Notícias Santiago & Missões
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2 border-r pr-4 border-gray-100">
+                            <span class="text-xs text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded">Preços</span>
+                            <h4 class="font-bold text-sm leading-tight text-gray-900">Arroba do boi segue estável, mas mercado de fêmeas briga por novos patamares no RS.[span_46](start_span)[span_46](end_span)</h4>
+                            <p class="text-xs text-gray-500">Expectativa é que a tendência de alta se mantenha até o Carnaval devido à baixa oferta de animais terminados.</p>
                         </div>
-
-                        <div class="card-footer">
-                            <button class="btn-action btn-vet" onclick="calcDose(${weightKg})">💉 Dosagem</button>
-                            <a href="https://www.google.com/maps?q=${coords}" target="_blank" class="btn-action btn-map">📍 Localização</a>
+                        <div class="space-y-2">
+                            <span class="text-xs text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded">Agricultura</span>
+                            <h4 class="font-bold text-sm leading-tight text-gray-900">Colheita da soja 25/26 avança com fretes em alta no estado.[span_47](start_span)[span_47](end_span)</h4>
+                            <p class="text-xs text-gray-500">Produtores de Santiago monitoram clima para evitar perdas na qualidade dos grãos colhidos.</p>
                         </div>
                     </div>
-                `;
-                feed.prepend(card);
-            });
-        } catch (e) {
-            feed.innerHTML = "<p style='color:red; text-align:center;'>Erro ao carregar dados. Verifique a conexão com a planilha.</p>";
-        }
-    }
+                </div>
+            </div>
 
-    function calcDose(weight) {
-        let dose = prompt(`Peso: ${weight}kg. Qual a recomendação da bula (ml por kg)?\nEx: 0.05 para 1ml a cada 20kg`);
-        if(dose) {
-            let res = (weight * parseFloat(dose.replace(',', '.'))).toFixed(2);
-            alert(`✅ Dosagem Recomendada: ${res} ml`);
-        }
-    }
+            <div class="space-y-8">
+                
+                <div class="agro-card p-4">
+                    <h3 class="font-bold text-center text-gray-700 text-xs uppercase tracking-widest mb-4">Monitoramento do Tempo</h3>
+                    <div class="rounded-lg overflow-hidden border border-blue-50">
+                        <a class="weatherwidget-io" href="https://forecast7.com/pt/n29d19n54d87/santiago/" data-label_1="SANTIAGO / RS" data-label_2="Previsão 7 Dias" data-theme="pure" data-accent="#064e3b">SANTIAGO / RS</a>
+                        <script>
+                       !function(d,s,id){var js,fjs=d.getElementsByTagName(s);if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                        </script>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-3 text-center italic font-medium">Dados atualizados via WeatherWidget.io em tempo real.[span_48](start_span)[span_48](end_span)</p>
+                </div>
 
-    loadCows();
-</script>
+                <div class="agro-card p-6 bg-green-50 border-2 border-green-200">
+                    <h3 class="font-bold text-green-900 mb-4 flex items-center">
+                        <i class="fas fa-calculator mr-2"></i> Calculadora de Arroba
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-green-700 uppercase">Peso Vivo Total (kg)</label>
+                            <input type="number" id="peso" value="450" class="w-full mt-1 p-2 bg-white border border-green-200 rounded text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-green-700 uppercase">Rendimento Estimado (%)</label>
+                            <input type="number" id="rendimento" value="50" class="w-full mt-1 p-2 bg-white border border-green-200 rounded text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                        </div>
+                        <button onclick="calcVenda()" class="w-full bg-green-700 text-white font-bold py-2 rounded-lg hover:bg-green-800 transition shadow-md">Simular Venda</button>
+                        <div id="resultado" class="hidden mt-4 p-3 bg-white border border-green-300 rounded text-center">
+                            <p class="text-xs text-gray-500 font-bold uppercase">Resultado Estimado</p>
+                            <p id="valor-venda" class="text-2xl font-black text-green-800 tracking-tighter"></p>
+                            <p class="text-[10px] text-gray-400 mt-1 italic">Base: R$ 330,00 por arroba (Preço Futuro 2026)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="agro-card p-5">
+                    <h3 class="font-bold text-gray-700 text-xs uppercase mb-4 border-b pb-2">Serviços e Apoio</h3>
+                    <ul class="space-y-3 text-xs">
+                        <li>
+                            <a href="https://www.sinsantiago.com.br/" target="_blank" class="flex items-center text-green-800 hover:text-green-600 transition">
+                                <i class="fas fa-landmark mr-2"></i> Sindicato Rural de Santiago
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.brangus.org.br/" target="_blank" class="flex items-center text-green-800 hover:text-green-600 transition">
+                                <i class="fas fa-certificate mr-2"></i> Assoc. Brasileira de Brangus
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://portal.inmet.gov.br/" target="_blank" class="flex items-center text-green-800 hover:text-green-600 transition">
+                                <i class="fas fa-triangle-exclamation mr-2 text-orange-500"></i> Avisos Climáticos INMET
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="sidebar-green text-white p-6 mt-12">
+        <div class="container mx-auto text-center text-xs opacity-70">
+            <p>© 2026 Sistema de Gestão Rural - Implementação Direta GitHub Pages</p>
+            <p class="mt-2">Focado em Terneiros Brangus Pretos e Vacas de Descarte na Região de Santiago/RS</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('data-display').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        function calcVenda() {
+            const p = document.getElementById('peso').value;
+            const r = document.getElementById('rendimento').value;
+            const precoArroba = 330; 
+            const arrobas = (p * (r/100)) / 15;
+            const total = arrobas * precoArroba;
+            
+            document.getElementById('resultado').classList.remove('hidden');
+            document.getElementById('valor-venda').innerText = 'R$ ' + total.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+    </script>
 </body>
 </html>
