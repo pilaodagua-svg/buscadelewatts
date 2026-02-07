@@ -1,41 +1,95 @@
+Building a "Cow Spotting" app for Santiago, RS is a fun and unique project! To achieve this, you’ll need to move beyond simple HTML and use the Google Maps JavaScript API for the map, along with a way to handle file uploads.
+
+Since we are in 2026, many of these integrations are "low-code," but you will still need a basic backend (like Firebase or Supabase) to store the pictures and coordinates permanently.
+🏗️ The Architecture
+
+To make this work, your app needs three main parts:
+
+    The Map: Centered on Santiago, RS (approx. −29.19, −54.86).
+
+    The Form: Where users enter the price and upload a photo.
+
+    The Database: To save the location (lat/lng), the image URL, and the price.
+
+💻 Frontend Code Template
+
+Here is a simplified version of how the interface and map logic would look.
+
+    Note: You will need a Google Maps API Key from the Google Cloud Console to make the map appear.
+
+HTML
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSU Search</title>
+    <title>Santiago Cow Finder</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        input { margin: 20px 0; }
+        #map { height: 400px; width: 100%; border-radius: 8px; }
+        .form-container { padding: 20px; background: #f4f4f4; border-radius: 8px; margin-top: 10px; }
+        input { display: block; margin: 10px 0; width: 100%; padding: 8px; }
     </style>
 </head>
 <body>
-    <h1>PSU Search</h1>
-    <input type="text" id="search" placeholder="Search for PSUs..." />
-    <div id="results"></div>
+    <h1>🐮 Santiago Cow Spotter (RS, Brazil)</h1>
+    <div id="map"></div>
+
+    <div class="form-container">
+        <h3>Report a Cow</h3>
+        <input type="number" id="price" placeholder="Price (R$)">
+        <input type="file" id="photo" accept="image/*">
+        <p><i>Click on the map to set the cow's location.</i></p>
+        <button onclick="saveCow()">Submit Spotting</button>
+    </div>
 
     <script>
-        const psus = [
-            { name: 'PSU A', year: 2025 },
-            { name: 'PSU B', year: 2027 },
-            { name: 'PSU C', year: 2028 }
-        ];
+        let map;
+        let selectedCoords = null;
+        let marker = null;
 
-        document.getElementById('search').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const results = psus.filter(psu => psu.name.toLowerCase().includes(query) && psu.year > 2026);
-            displayResults(results);
-        });
+        async function initMap() {
+            // Coordinates for Santiago, RS
+            const santiago = { lat: -29.1919, lng: -54.8669 };
+            
+            const { Map } = await google.maps.importLibrary("maps");
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-        function displayResults(results) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
-            results.forEach(psu => {
-                const div = document.createElement('div');
-                div.textContent = `${psu.name} (${psu.year})`;
-                resultsDiv.appendChild(div);
+            map = new Map(document.getElementById("map"), {
+                zoom: 13,
+                center: santiago,
+                mapId: "YOUR_MAP_ID", // Required for Advanced Markers
+            });
+
+            // Click listener to place a marker
+            map.addListener("click", (mapsMouseEvent) => {
+                selectedCoords = mapsMouseEvent.latLng.toJSON();
+                
+                if (marker) marker.setMap(null); // Remove old marker
+                
+                marker = new google.maps.Marker({
+                    position: mapsMouseEvent.latLng,
+                    map: map,
+                    title: "Cow found here!"
+                });
             });
         }
+
+        function saveCow() {
+            const price = document.getElementById('price').value;
+            const photo = document.getElementById('photo').files[0];
+
+            if (!selectedCoords || !price || !photo) {
+                alert("Please select a location on the map, enter a price, and upload a photo!");
+                return;
+            }
+
+            console.log("Saving Spotting:", { 
+                location: selectedCoords, 
+                price: price, 
+                imageName: photo.name 
+            });
+            alert("Cow reported successfully in Santiago!");
+        }
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
