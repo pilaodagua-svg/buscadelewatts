@@ -1,96 +1,150 @@
+This is a fantastic evolution of your idea! You are adding three advanced features:
+
+    Bilingual Support (English/Portuguese): A button to switch languages instantly.
+
+    Smart Math: A "Weight Calculator" that uses a famous cattle formula (Schaeffer's Formula) so you don't need a scale.
+
+    Google Maps: A button to open the exact location.
+
+Since we cannot program a "Visual AI" that "looks" at a photo and guesses the weight (that requires supercomputers and 3D cameras), we will use Math. The user will input the cow's estimated Girth (Heart Girth) and Body Length, and your code will calculate the weight automatically.
+🐮 Santiago Cow Exchange (Smart Version)
+
+Copy this entire block into your index.html.
+HTML
+
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head> 
-  <meta charset="UTF-8">
-  <title>Busca Multi-Loja</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 40px;
-      text-align: center; 
-    }
-    h1 {
-      color: #333;
-    }
-    input {
-      width: 400px;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px 20px;
-      margin-left: 10px;
-      background: #0078d7;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #005a9e;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin-top: 30px;
-    }
-    .loja {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-size: 14px;
-    }
-  </style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santiago Cow Exchange</title>
+    <style>
+        :root { --primary: #2e7d32; --bg: #f1f8e9; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        
+        /* Card Style */
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        /* Inputs & Buttons */
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-submit { background: var(--primary); color: white; font-size: 16px; }
+        .btn-lang { background: #ddd; color: #333; margin-bottom: 15px; }
+
+        /* Output Area */
+        .post { border: 1px solid #ddd; padding: 15px; margin-top: 20px; border-radius: 10px; background: #fff; }
+        .post img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+        .highlight { color: var(--primary); font-weight: bold; font-size: 1.1em; }
+
+        /* Language Hiding */
+        .lang-pt { display: none; } /* Default hidden */
+    </style>
 </head>
 <body>
-  <h1>Busca Multi-Loja</h1>
-  <input type="text" id="produto" placeholder="Digite o nome do produto">
-  <button onclick="buscar()">Pesquisar em todas</button>
 
-  <div class="grid" id="links"></div>
+<div class="container">
+    <button class="btn-lang" onclick="toggleLanguage()">🇺🇸 English / 🇧🇷 Português</button>
 
-  <script>
-    const lojas = {
-      "Pichau": "https://www.pichau.com.br/search?q=",
-      "Terabyte": "https://www.terabyteshop.com.br/busca?str=",
-      "KaBuM!": "https://www.kabum.com.br/busca?query=",
-      "Amazon": "https://www.amazon.com.br/s?k=",
-      "Mercado Livre": "https://lista.mercadolivre.com.br/",
-      "Hardstore": "https://www.hardstore.com.br/busca?search=",
-      "InPower": "https://www.inpower.com.br/busca?search=",
-      "Gigantec": "https://www.gigantec.com.br/busca?search=",
-      "MaxPC": "https://www.maxpc.com.br/search?q=",
-      "FGTEC": "https://www.fgtec.com.br/busca?search=",
-      "Oficina dos Bits": "https://www.oficinadosbits.com.br/busca?search=",
-      "PC Gamer Brasília": "https://www.pcgamerbrasilia.com.br/busca?search="
-      // adicione as demais lojas aqui
-    };
+    <h2 class="lang-en">🐮 Add a Cow</h2>
+    <h2 class="lang-pt">🐮 Adicionar Vaca</h2>
 
-    function buscar() {
-      const termo = document.getElementById("produto").value;
-      const lista = document.getElementById("links");
-      lista.innerHTML = "";
-      for (const [nome, url] of Object.entries(lojas)) {
-        const link = url + encodeURIComponent(termo);
-        // cria card
-        const div = document.createElement("div");
-        div.className = "loja";
-        div.textContent = nome;
-        div.onclick = () => window.open(link, "_blank");
-        lista.appendChild(div);
-        // abre automaticamente em nova aba
-        window.open(link, "_blank");
-      }
+    <label class="lang-en">Photo URL (Paste from ImgBB):</label>
+    <label class="lang-pt">URL da Foto (Cole do ImgBB):</label>
+    <input type="text" id="imgUrl" placeholder="https://...">
+
+    <label class="lang-en">Price (R$):</label>
+    <label class="lang-pt">Preço (R$):</label>
+    <input type="number" id="price" placeholder="2500">
+
+    <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; margin: 10px 0;">
+        <strong class="lang-en">📏 Weight Calculator</strong>
+        <strong class="lang-pt">📏 Calculadora de Peso</strong>
+        
+        <p style="font-size:0.9em; margin: 5px 0;">
+            <span class="lang-en">Measure the chest (girth) and body length in inches.</span>
+            <span class="lang-pt">Meça o peito (perímetro) e o comprimento do corpo em polegadas.</span>
+        </p>
+
+        <input type="number" id="girth" placeholder="Chest Girth (inches) / Peito (pol)">
+        <input type="number" id="length" placeholder="Body Length (inches) / Comprimento (pol)">
+    </div>
+
+    <label class="lang-en">Location (Coordinates):</label>
+    <label class="lang-pt">Localização (Coordenadas):</label>
+    <input type="text" id="coords" placeholder="-29.19, -54.86" value="-29.19, -54.86">
+
+    <button class="btn-submit" onclick="addPost()">
+        <span class="lang-en">Post Cow</span>
+        <span class="lang-pt">Publicar Vaca</span>
+    </button>
+</div>
+
+<div id="feed" class="container" style="background: transparent; box-shadow: none; padding: 0;"></div>
+
+<script>
+    let currentLang = 'en';
+
+    function toggleLanguage() {
+        const enElements = document.querySelectorAll('.lang-en');
+        const ptElements = document.querySelectorAll('.lang-pt');
+
+        if (currentLang === 'en') {
+            enElements.forEach(el => el.style.display = 'none');
+            ptElements.forEach(el => el.style.display = 'block');
+            currentLang = 'pt';
+        } else {
+            enElements.forEach(el => el.style.display = 'block');
+            ptElements.forEach(el => el.style.display = 'none');
+            currentLang = 'en';
+        }
     }
-  </script>
+
+    function addPost() {
+        // 1. Get Values
+        const img = document.getElementById('imgUrl').value || 'https://via.placeholder.com/400x300?text=No+Image';
+        const price = document.getElementById('price').value;
+        const coords = document.getElementById('coords').value;
+        
+        // 2. Calculate Weight (Schaeffer Formula)
+        // Weight (lbs) = (Girth^2 * Length) / 300
+        const girth = parseFloat(document.getElementById('girth').value) || 0;
+        const len = parseFloat(document.getElementById('length').value) || 0;
+        
+        let weightLbs = 0;
+        if(girth > 0 && len > 0) {
+            weightLbs = (Math.pow(girth, 2) * len) / 300;
+        }
+        
+        // Convert to Kg (1 lb = 0.45 kg)
+        const weightKg = (weightLbs * 0.453592).toFixed(1);
+
+        // 3. Create Map Link
+        const mapLink = `https://www.google.com/maps/search/?api=1&query=${coords}`;
+
+        // 4. Build HTML Card
+        const feed = document.getElementById('feed');
+        const card = document.createElement('div');
+        card.className = 'post';
+        
+        // We add both languages to the card so they toggle correctly later
+        card.innerHTML = `
+            <img src="${img}">
+            <p class="highlight">R$ ${price}</p>
+            
+            <p>
+                <span class="lang-en"><strong>⚖️ Est. Weight:</strong> ${weightKg} kg</span>
+                <span class="lang-pt" style="display: ${currentLang === 'pt' ? 'block' : 'none'}"><strong>⚖️ Peso Est.:</strong> ${weightKg} kg</span>
+            </p>
+
+            <a href="${mapLink}" target="_blank" style="color:#2e7d32; text-decoration:none; font-weight:bold;">
+                <span class="lang-en">📍 View on Google Maps</span>
+                <span class="lang-pt" style="display: ${currentLang === 'pt' ? 'block' : 'none'}">📍 Ver no Google Maps</span>
+            </a>
+        `;
+
+        feed.prepend(card);
+    }
+</script>
+
 </body>
 </html>
-
