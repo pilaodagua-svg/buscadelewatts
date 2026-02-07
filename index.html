@@ -3,134 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BovinoTech Santiago</title>
+    <title>BovinoTech Pro - Santiago RS</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --primary: #2e7d32; --vet: #1565c0; --bg: #f1f8e9; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: auto; }
-        
-        header { text-align: center; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; box-sizing: border-box; }
-        .btn-add { background: var(--primary); color: white; font-size: 1.1rem; }
-        .btn-lang { background: #eee; color: #333; padding: 5px; font-size: 0.8rem; width: auto; display: inline-block; }
-
-        .card { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 250px; object-fit: cover; }
-        .card-body { padding: 15px; }
-        .price { font-size: 1.6rem; color: var(--primary); font-weight: 800; }
-        
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 8px; margin: 10px 0; }
-        .status { float: right; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; background: #e8f5e9; color: #2e7d32; }
-
-        .btn-vet { background: white; border: 2px solid var(--vet); color: var(--vet); }
-        .btn-map { background: #e3f2fd; color: var(--vet); }
-        
-        /* Esconder idiomas */
-        .lang-en { display: none; }
+        :root { --agro: #1b5e20; --vet: #0277bd; --gold: #fbc02d; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; }
+        .header { background: var(--agro); color: white; padding: 25px; text-align: center; border-bottom: 4px solid var(--gold); }
+        .container { max-width: 900px; margin: -20px auto 0; padding: 0 15px; }
+        #map { height: 350px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 25px; border: 3px solid white; }
+        .animal-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .animal-img { width: 100%; height: 250px; object-fit: cover; }
+        .info { padding: 20px; }
+        .price { font-size: 1.8rem; color: var(--agro); font-weight: bold; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
+        .healthy { background: #e8f5e9; color: #2e7d32; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 0.9rem; }
+        .btn { display: block; text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+        .btn-vet { border: 2px solid var(--vet); color: var(--vet); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <button class="btn btn-lang" onclick="toggleLang()">🇺🇸 English / 🇧🇷 Português</button>
-        <h1 class="lang-pt">🐮 BovinoTech Santiago</h1>
-        <h1 class="lang-en">🐮 Santiago Cow Market</h1>
-        <p class="lang-pt">Santiago, RS - Tecnologia para o Campo</p>
-        <p class="lang-en">Santiago, RS - Ranching Technology</p>
-        
-        <a href="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform" target="_blank" class="btn btn-add">
-            <span class="lang-pt">➕ Anunciar Animal</span>
-            <span class="lang-en">➕ Post a Cow</span>
-        </a>
-    </header>
+<div class="header">
+    <h1>🌾 BovinoTech Santiago</h1>
+    <p>Marketplace Rural & Inteligência Veterinária</p>
+</div>
 
+<div class="container">
+    <div id="map"></div>
     <div id="feed">
-        <p style="text-align:center;">Carregando dados da planilha...</p>
+        <p style="text-align:center;">Sincronizando com a Planilha de Santiago...</p>
     </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // Link da sua planilha convertida em CSV para o código ler
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_N80X_6f2A4z7Z9p_SByzIe3S7nB9vI7qI8q9n5j7m8z6x-9y9z5_.../pub?output=csv";
-    
-    // Como ainda não publiquei a sua, usei o seu ID de planilha direto
-    const PROXY_URL = "https://docs.google.com/spreadsheets/d/1siJAnVoA3KwnoQWYtkB-wODIb1j1_YP2VHC-djXnFtg/gviz/tq?tqx=out:csv";
+    // ID da sua planilha confirmada 
+    const SHEET_ID = "1siJAnVoA3KwnoQWYtkB-wODIb1j1_YP2VHC-djXnFtg";
+    const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
-    let isEnglish = false;
+    const map = L.map('map').setView([-29.1914, -54.8659], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    async function loadCows() {
+    async function loadData() {
         try {
-            const response = await fetch(PROXY_URL);
-            const text = await response.text();
-            const rows = text.split('\n').slice(1);
+            const response = await fetch(CSV_URL);
+            const data = await response.text();
+            const rows = data.split('\n').slice(1);
             const feed = document.getElementById('feed');
             feed.innerHTML = '';
 
-            rows.forEach(row => {
-                // Remove aspas que o Google Sheets coloca
-                const cols = row.split('","').map(c => c.replace(/"/g, ''));
+            rows.forEach((row, i) => {
+                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/"/g, '').trim());
+                if (cols.length < 5) return;
+
+                const [data, foto, preco, peito, comprimento, coords, saude] = cols;
                 
-                // Mapeamento: 1=Foto, 2=Preço, 3=Peito(cm), 4=Comprimento(cm), 5=Coords, 6=Saúde
-                const photo = cols[1];
-                const price = cols[2];
-                const girth = parseFloat(cols[3]);
-                const length = parseFloat(cols[4]);
-                const coords = cols[5];
-                const health = cols[6] || "Saudável";
+                // Cálculo de Peso Brasileiro (cm/kg)
+                const peso = ((Math.pow(parseFloat(peito), 2) * parseFloat(comprimento)) / 11900).toFixed(1);
+                const dose = (peso * 0.02).toFixed(2); // Simulação veterinária
 
-                // Cálculo Brasileiro: (Peito² * Comprimento) / 11900
-                const weight = girth && length ? ((Math.pow(girth, 2) * length) / 11900).toFixed(1) : "---";
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <img src="${photo}" onerror="this.src='https://via.placeholder.com/400x250?text=Animal+Sem+Foto'">
-                    <div class="card-body">
-                        <span class="status">${health}</span>
-                        <div class="price">R$ ${price}</div>
-                        
-                        <div class="stats">
-                            <div><strong>⚖️ Peso Est.:</strong><br>${weight} kg</div>
-                            <div><strong>📏 Medidas:</strong><br>${girth}x${length} cm</div>
+                // Adicionar no Feed
+                feed.innerHTML += `
+                    <div class="animal-card">
+                        <img src="${foto.replace('view?usp=drivesdk', 'uc?export=view&id=').split('d/')[1]?.split('/')[0] || foto}" class="animal-img" onerror="this.src='https://via.placeholder.com/400x250?text=Animal+de+Santiago'">
+                        <div class="info">
+                            <span class="badge healthy">${saude || 'Saudável'}</span>
+                            <div class="price">R$ ${preco}</div>
+                            <div class="stats">
+                                <div><strong>⚖️ Peso</strong><br>${peso} kg</div>
+                                <div><strong>📏 Peito</strong><br>${peito} cm</div>
+                                <div><strong>📏 Comp.</strong><br>${comprimento} cm</div>
+                            </div>
+                            <button class="btn btn-vet" onclick="alert('Dose Sugerida: ${dose} ml (Base 1ml/50kg)')">🩺 Consultar Dosagem Vet</button>
+                            <a href="https://www.google.com/maps?q=${coords}" target="_blank" class="btn" style="background:#e3f2fd; color:#0277bd">📍 Localizar na Fazenda</a>
                         </div>
-
-                        <button class="btn btn-vet" onclick="calcVet(${weight})">
-                            <span class="lang-pt">💉 Vet: Calcular Dose</span>
-                            <span class="lang-en">💉 Vet: Calculate Dose</span>
-                        </button>
-
-                        <a href="https://www.google.com/maps?q=${coords}" target="_blank" class="btn btn-map">
-                            <span class="lang-pt">📍 Ver no Google Maps</span>
-                            <span class="lang-en">📍 View on Google Maps</span>
-                        </a>
                     </div>
                 `;
-                feed.prepend(card);
+
+                // Marcar no Mapa
+                if(coords) {
+                    const [lat, lng] = coords.split(',').map(Number);
+                    if(!isNaN(lat)) L.marker([lat, lng]).addTo(map).bindPopup(`<b>Lote #${i+1}</b><br>Peso: ${peso}kg`);
+                }
             });
-            updateLang();
         } catch (e) {
-            document.getElementById('feed').innerHTML = "<p>Planilha conectada! Aguardando o primeiro anúncio ser publicado.</p>";
+            feed.innerHTML = "<p style='text-align:center'>Ative 'Publicar na Web' na Planilha!</p>";
         }
     }
-
-    function calcVet(w) {
-        let dose = prompt(isEnglish ? "Dosage (ml per kg):" : "Dosagem (ml por kg):", "0.02");
-        if(dose) alert((isEnglish ? "Total Dose: " : "Dose Total: ") + (w * parseFloat(dose)).toFixed(2) + " ml");
-    }
-
-    function toggleLang() {
-        isEnglish = !isEnglish;
-        updateLang();
-    }
-
-    function updateLang() {
-        document.querySelectorAll('.lang-pt').forEach(el => el.style.display = isEnglish ? 'none' : 'block');
-        document.querySelectorAll('.lang-en').forEach(el => el.style.display = isEnglish ? 'block' : 'none');
-    }
-
-    loadCows();
+    loadData();
 </script>
 </body>
 </html>
-
