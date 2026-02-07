@@ -3,167 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Agro Santiago - Brangus & Vacas</title>
+    <title>Santiago Agro-Hub | Inteligência Rural</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
-       .agro-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 5px solid #064e3b; transition: 0.3s; }
-       .agro-card:hover { transform: translateY(-3px); }
-       .sidebar-green { background: #064e3b; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; scroll-behavior: smooth; }
+       .nav-card { background: white; border-radius: 16px; border-left: 6px solid #064e3b; transition: 0.3s; }
+       .nav-card:hover { transform: scale(1.02); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+       .flag-btn { font-size: 10px; padding: 4px 8px; border-radius: 6px; font-weight: bold; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 4px; }
+       .weather-btn { background: #0f172a; color: white; padding: 8px; border-radius: 8px; text-align: center; font-size: 11px; font-weight: 700; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <header class="sidebar-green text-white p-6 shadow-lg">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+    <header class="bg-[#064e3b] text-white p-8 shadow-2xl">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <div>
-                <h1 class="text-3xl font-black tracking-tight uppercase">BOVINOTECH SANTIAGO</h1>
-                <p class="text-green-300 text-xs font-bold uppercase tracking-widest mt-1">Gestão de Gado e Inteligência Climática</p>
+                <h1 class="text-3xl font-black tracking-tighter uppercase">SANTIAGO AGRO-HUB</h1>
+                <p class="text-green-300 text-xs font-bold uppercase tracking-widest mt-1">Gestão Transfronteiriça BR • AR • UY</p>
             </div>
-            <div class="mt-4 md:mt-0 bg-green-900 px-4 py-2 rounded-lg">
-                <span class="block text-[10px] uppercase text-green-400 font-bold">Data do Sistema</span>
-                <span id="data-display" class="font-bold text-sm"></span>
-            </div>
+            <div id="data-display" class="mt-4 md:mt-0 font-bold bg-green-900 px-4 py-2 rounded-full text-sm"></div>
         </div>
     </header>
 
-    <main class="container mx-auto p-4 md:p-8 flex-grow">
+    <main class="container mx-auto p-4 md:p-8 space-y-12">
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <div class="agro-card p-6" style="border-top-color: #000;">
-                <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Terneiros Brangus Pretos</p>
-                <h3 id="total-terneiros" class="text-4xl font-black text-gray-800">--</h3>
-                <span class="text-[10px] text-green-600 font-bold"><i class="fas fa-check-circle"></i> ESTOQUE ATUAL</span>
+        <section class="space-y-6">
+            <h2 class="text-xl font-black uppercase text-slate-700 flex items-center"><i class="fas fa-satellite-dish mr-2 text-blue-600"></i> Monitoramento Climático</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="font-bold text-xs uppercase mb-4 text-center">Tempo em Santiago/RS</h3>
+                    <a class="weatherwidget-io" href="https://forecast7.com/pt/n29d19n54d87/santiago/" data-label_1="SANTIAGO" data-label_2="SUL DO BRASIL" data-theme="pure" data-accent="#064e3b">SANTIAGO WEATHER</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s);if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');</script>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-200">
+                    <h3 class="font-bold text-xs uppercase mb-4 text-orange-700"><i class="fas fa-bolt mr-2"></i> Mapa de Raios em Tempo Real</h3>
+                    <p class="text-[10px] text-gray-500 mb-4 font-medium uppercase">Visualização via UFPEL/RINDAT para proteção do rebanho.</p>
+                    <a href="https://wp.ufpel.edu.br/cppmet/descargas-eletricas-mapa/" target="_blank" class="block w-full bg-orange-500 text-white text-center py-3 rounded-xl font-black text-xs hover:bg-orange-600 transition">ABRIR MAPA RINDAT</a>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="font-bold text-xs uppercase mb-4 text-slate-700">Portais Oficiais do Agro</h3>
+                    <div class="grid grid-cols-1 gap-2">
+                        <a href="https://portal.inmet.gov.br/" target="_blank" class="weather-btn bg-green-700">INMET (Brasil)</a>
+                        <a href="https://www.smn.gob.ar/" target="_blank" class="weather-btn bg-blue-700">SMN (Argentina)</a>
+                        <a href="https://www.inumet.gub.uy/" target="_blank" class="weather-btn bg-slate-700">INUMET (Uruguai)</a>
+                    </div>
+                </div>
             </div>
-            <div class="agro-card p-6" style="border-top-color: #c2410c;">
-                <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Vacas de Descarte</p>
-                <h3 id="total-vacas" class="text-4xl font-black text-gray-800">--</h3>
-                <span class="text-[10px] text-orange-600 font-bold"><i class="fas fa-truck"></i> DISPONÍVEL VENDA</span>
-            </div>
-            <div class="agro-card p-6" style="border-top-color: #2563eb;">
-                <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Média Arroba RS (Vaca)</p>
-                <h3 class="text-4xl font-black text-blue-800">R$ 9,90</h3>
-                <span class="text-[10px] text-blue-600 font-bold"><i class="fas fa-chart-line"></i> REF: EMATER/RS</span>
-            </div>
-            <div class="agro-card p-6" style="border-top-color: #ef4444;">
-                <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Prob. Chuva Santiago</p>
-                <h3 class="text-4xl font-black text-red-700">70%</h3>
-                <span class="text-[10px] text-red-600 font-bold"><i class="fas fa-cloud-rain"></i> ALERTA INMET</span>
-            </div>
-        </div>
+        </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section class="space-y-6">
+            <h2 class="text-xl font-black uppercase text-slate-700 flex items-center"><i class="fas fa-book-open mr-2 text-green-700"></i> Biblioteca Técnica Rápida</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="nav-card p-6">
+                    <h4 class="font-black text-xs uppercase text-gray-400 mb-4">Padrão Racial: Brangus</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://www.brangus.org.br/manual-de-visita-de-inspecao-tecnica-1" target="_blank" class="flag-btn">🇧🇷 BR</a>
+                        <a href="https://brangus.org.ar/la-raza/patron-racial-2000/" target="_blank" class="flag-btn">🇦🇷 AR</a>
+                        <a href="https://www.brangus.org.uy/index.php/raza.html" target="_blank" class="flag-btn">🇺🇾 UY</a>
+                        <a href="https://gobrangus.com/shows" target="_blank" class="flag-btn">🇺🇸 USA</a>
+                    </div>
+                </div>
+                <div class="nav-card p-6" style="border-left-color: #7c3aed;">
+                    <h4 class="font-black text-xs uppercase text-gray-400 mb-4">Padrão Racial: Ovinos</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://www.arcoovinos.com.br/PadraoRacial" target="_blank" class="flag-btn">🇧🇷 BR</a>
+                        <a href="https://www.merino.org.ar/institucional/la-raza-dohne-merino/manual-dohne-merino/" target="_blank" class="flag-btn">🇦🇷 AR</a>
+                        <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/49855" target="_blank" class="flag-btn">🇺🇾 UY</a>
+                        <a href="https://www.sheepusa.org/product/u-s-sheep-breeds-directory" target="_blank" class="flag-btn">🇺🇸 USA</a>
+                    </div>
+                </div>
+                <div class="nav-card p-6" style="border-left-color: #2563eb;">
+                    <h4 class="font-black text-xs uppercase text-gray-400 mb-4">Padrão Racial: Crioulo/Quarto Milha</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://www.cavalocrioulo.org.br/studbook/regulamentos" target="_blank" class="flag-btn">🇧🇷 BR</a>
+                        <a href="https://www.caballoscriollos.com/espanol/standard_racial.php" target="_blank" class="flag-btn">🇦🇷 AR</a>
+                        <a href="https://caballoscriollos.com.uy/la-raza/estandar/" target="_blank" class="flag-btn">🇺🇾 UY</a>
+                        <a href="https://www.aqha.com/aqha-rulebook" target="_blank" class="flag-btn">🇺🇸 USA</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border">
+                <h3 class="font-black text-sm uppercase mb-6 flex items-center border-b pb-4"><i class="fas fa-tasks mr-2 text-green-600"></i> Manejo de Fevereiro</h3>
+                <ul class="space-y-4 text-xs font-bold">
+                    <li class="flex items-center text-green-700 bg-green-50 p-3 rounded-lg"><i class="fas fa-check-circle mr-3"></i> ENTRADA EM CAPIM-SUDÃO / MILETO</li>
+                    <li class="flex items-center text-blue-700 bg-blue-50 p-3 rounded-lg"><i class="fas fa-syringe mr-3"></i> VACINAÇÃO CLOSTRIDIOSES E BRUCELOSE</li>
+                    <li class="flex items-center text-orange-700 bg-orange-50 p-3 rounded-lg"><i class="fas fa-chart-line mr-3"></i> SUPLEMENTAÇÃO MINERAL PARA GPD 0,7KG</li>
+                </ul>
+            </div>
             
-            <div class="lg:col-span-2 space-y-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h2 class="font-black text-gray-700 text-sm uppercase mb-4 flex items-center">
-                        <i class="fas fa-sun mr-2 text-yellow-500"></i> Previsão do Tempo Santiago/RS
-                    </h2>
-                    <div class="rounded-lg overflow-hidden border border-blue-50">
-                        <a class="weatherwidget-io" href="https://forecast7.com/pt/n29d19n54d87/santiago/" data-label_1="SANTIAGO / RS" data-label_2="Previsão 7 Dias" data-theme="pure" data-accent="#064e3b">SANTIAGO / RS</a>
-                        <script>
-                       !function(d,s,id){var js,fjs=d.getElementsByTagName(s);if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-                        </script>
-                    </div>
-                    <p class="text-[9px] text-gray-400 mt-2 italic text-center uppercase font-bold tracking-widest">Atualização automática em tempo real</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h2 class="font-black text-gray-700 text-sm uppercase mb-6 flex items-center border-b pb-4">
-                        <i class="fas fa-book mr-2 text-green-700"></i> Manuais Oficiais da Raça Brangus
-                    </h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <a href="https://www.brangus.org.br/manual-de-visita-de-inspecao-tecnica-1" target="_blank" class="p-4 border rounded-lg hover:bg-green-50 text-center transition">
-                            <i class="fas fa-flag-checkered text-green-700 mb-2 block text-xl"></i>
-                            <span class="text-[10px] font-bold uppercase block">Brasil</span>
-                        </a>
-                        <a href="https://www.brangus.org.uy/index.php/raza.html" target="_blank" class="p-4 border rounded-lg hover:bg-green-50 text-center transition">
-                            <i class="fas fa-globe-americas text-blue-700 mb-2 block text-xl"></i>
-                            <span class="text-[10px] font-bold uppercase block">Uruguai</span>
-                        </a>
-                        <a href="https://brangus.org.ar/la-raza/patron-racial-2000/" target="_blank" class="p-4 border rounded-lg hover:bg-green-50 text-center transition">
-                            <i class="fas fa-certificate text-orange-600 mb-2 block text-xl"></i>
-                            <span class="text-[10px] font-bold uppercase block">Argentina</span>
-                        </a>
-                        <a href="https://gobrangus.com/shows" target="_blank" class="p-4 border rounded-lg hover:bg-green-50 text-center transition">
-                            <i class="fas fa-star text-blue-900 mb-2 block text-xl"></i>
-                            <span class="text-[10px] font-bold uppercase block">EUA</span>
-                        </a>
-                    </div>
+            <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-xl border-t-8 border-orange-500">
+                <h3 class="font-black text-xs uppercase mb-4 tracking-widest">Calculadora e Monetização</h3>
+                <div class="space-y-4">
+                    <input type="number" id="p" class="w-full bg-slate-800 border-none p-3 rounded-xl text-sm" placeholder="Peso Vivo do Animal (kg)">
+                    <button onclick="res()" class="w-full bg-orange-500 py-3 rounded-xl font-black text-xs uppercase shadow-lg">Calcular @ e Simular Venda</button>
+                    <p id="out" class="text-center text-xl font-black text-green-400"></p>
+                    <a href="https://associados.amazon.com.br/" target="_blank" class="block w-full bg-white text-black text-center py-2 rounded-lg font-black text-[10px] uppercase mt-2">Ativar Minha Renda Passiva</a>
                 </div>
             </div>
+        </section>
 
-            <div class="space-y-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-green-700 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-green-700 text-white text-[8px] px-2 py-1 font-bold uppercase">Patrocinado</div>
-                    <h3 class="font-black text-gray-800 text-xs uppercase mb-4">Loja do Produtor Rural</h3>
-                    <p class="text-[11px] text-gray-500 mb-4">Recomendações de equipamentos com preços exclusivos para o RS.</p>
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="https://www.amazon.com.br/b?node=16209062011" target="_blank" class="flex items-center p-3 bg-gray-50 rounded border hover:border-green-700 transition">
-                                <i class="fab fa-amazon mr-3 text-orange-500"></i>
-                                <span class="text-xs font-bold text-gray-700">Ferramentas Agrícolas</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.amazon.com.br/s?k=botas+trabalho" target="_blank" class="flex items-center p-3 bg-gray-50 rounded border hover:border-green-700 transition">
-                                <i class="fas fa-boot mr-3 text-gray-700"></i>
-                                <span class="text-xs font-bold text-gray-700">Botas de Couro</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <a href="https://associados.amazon.com.br/" target="_blank" class="mt-4 block w-full bg-orange-500 text-white text-center py-2 rounded font-black text-[10px] uppercase hover:bg-orange-600 shadow-md">
-                        Ativar Minha Renda Passiva
-                    </a>
-                </div>
-
-                <div class="bg-gray-900 text-white p-6 rounded-xl shadow-lg border-b-4 border-green-500">
-                    <h3 class="font-black text-xs uppercase mb-4 tracking-widest"><i class="fas fa-calculator mr-2"></i> Simulador de Venda</h3>
-                    <div class="space-y-4">
-                        <input type="number" id="peso" value="450" class="w-full p-3 bg-gray-800 border-none rounded text-sm focus:ring-2 focus:ring-green-500 outline-none" placeholder="Peso Vivo (kg)">
-                        <button onclick="calcularVenda()" class="w-full bg-green-600 text-white font-black py-3 rounded-lg hover:bg-green-700 shadow-lg uppercase text-xs">Simular Valor Bruto</button>
-                        <div id="res-box" class="hidden p-4 bg-gray-800 rounded border border-gray-700 text-center">
-                            <p class="text-[10px] text-gray-400 font-bold uppercase">Resultado Estimado</p>
-                            <p id="valor-venda" class="text-2xl font-black text-green-400"></p>
-                            <p class="text-[8px] text-gray-500 mt-1 uppercase">Base: R$ 330,00/@ (Cotação 2026)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 
-    <footer class="sidebar-green text-white p-6 mt-12 text-center text-[10px] opacity-60 font-bold uppercase tracking-widest leading-relaxed">
-        © 2026 BOVINOTECH SANTIAGO - GESTÃO DE PRECISÃO NO PAMPA<br>
-        FOCADO EM TERNEIROS BRANGUS E VACAS DE DESCARTE
+    <footer class="bg-white p-10 mt-12 border-t text-center space-y-4">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">BovinoTech Santiago • Inteligência do Pampa • 2026</p>
+        <div class="flex justify-center gap-4 text-slate-300">
+            <i class="fas fa-cow"></i><i class="fas fa-horse"></i><i class="fas fa-sheep"></i>
+        </div>
     </footer>
 
     <script>
-        // ==========================================
-        // SEÇÃO DE ATUALIZAÇÃO (EDITE OS NÚMEROS AQUI)
-        // ==========================================
-        const CONFIG = {
-            terneirosEstoque: 135, // Altere aqui
-            vacasVenda: 28,        // Altere aqui
-            precoBaseArroba: 330   // Preço futuro 2026
-        };
-
-        // ==========================================
-        // LÓGICA AUTOMÁTICA
-        // ==========================================
-        document.getElementById('total-terneiros').innerText = CONFIG.terneirosEstoque;
-        document.getElementById('total-vacas').innerText = CONFIG.vacasVenda;
         document.getElementById('data-display').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-        function calcularVenda() {
-            const p = document.getElementById('peso').value;
-            const arrobas = (p * 0.50) / 15; // Rendimento 50%
-            const total = arrobas * CONFIG.precoBaseArroba;
-            
-            document.getElementById('res-box').classList.remove('hidden');
-            document.getElementById('valor-venda').innerText = 'R$ ' + total.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        function res() {
+            const val = document.getElementById('p').value;
+            if(val > 0) {
+                const arr = (val * 0.50) / 15;
+                const tot = arr * 330;
+                document.getElementById('out').innerHTML = `${arr.toFixed(1)} @ <br> <span class='text-xs text-white opacity-50'>ESTIMADO R$ ${tot.toLocaleString('pt-BR')}</span>`;
+            }
         }
     </script>
 </body>
