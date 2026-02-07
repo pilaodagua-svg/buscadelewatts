@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Santiago Agro-Hub | Safra e Pecuária</title>
+    <title>Santiago Agro-Hub | Inteligência Regional</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; scroll-behavior: smooth; }
-      .agro-card { background: white; border-radius: 16px; border-top: 6px solid #064e3b; transition: 0.3s; }
-      .agro-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-      .btn-soja { background: #b45309; color: white; padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
-      .flag-btn { font-size: 10px; padding: 6px; border-radius: 8px; border: 1px solid #e2e8f0; font-weight: bold; text-align: center; }
+     .agro-card { background: white; border-radius: 16px; border-top: 6px solid #064e3b; transition: 0.3s; }
+     .agro-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+     .agenda-item { border-left: 4px solid #b45309; background: #fffbeb; padding: 10px; border-radius: 8px; font-size: 11px; }
+     .flag-btn { font-size: 10px; padding: 6px; border-radius: 8px; border: 1px solid #e2e8f0; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -20,10 +20,10 @@
     <header class="bg-[#064e3b] text-white p-8 shadow-2xl">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left">
-                <h1 class="text-3xl font-black tracking-tighter uppercase">SANTIAGO AGRO-HUB</h1>
-                <p class="text-green-300 text-xs font-bold uppercase tracking-widest mt-1">Gestão de Safra, Gado e Inteligência Climática</p>
+                <h1 class="text-3xl font-black tracking-tighter uppercase leading-none text-white">SANTIAGO AGRO-HUB</h1>
+                <p class="text-green-300 text-[10px] font-bold uppercase tracking-widest mt-2">Inteligência de Safra, Pecuária e Sanidade</p>
             </div>
-            <div class="mt-4 md:mt-0 bg-green-900 px-6 py-2 rounded-full text-sm font-bold shadow-inner">
+            <div class="mt-4 md:mt-0 bg-green-900 px-6 py-2 rounded-full text-xs font-black shadow-inner uppercase tracking-tighter">
                 <i class="fas fa-calendar-alt mr-2"></i> <span id="data-display"></span>
             </div>
         </div>
@@ -32,18 +32,18 @@
     <main class="container mx-auto p-4 md:p-8 space-y-10">
         
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="agro-card p-6 border-t-[#2563eb]">
-                <h3 class="font-black text-xs uppercase mb-4 text-slate-700"><i class="fas fa-cloud-sun mr-2"></i> Clima Santiago</h3>
+            <div class="agro-card p-6 border-t-blue-600">
+                <h3 class="font-black text-xs uppercase mb-4 text-slate-700">Clima em Santiago</h3>
                 <a class="weatherwidget-io" href="https://forecast7.com/pt/n29d19n54d87/santiago/" data-label_1="SANTIAGO" data-label_2="SUL DO BRASIL" data-theme="pure" >SANTIAGO WEATHER</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s);if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');</script>
             </div>
             <div class="agro-card p-6 border-t-orange-500">
-                <h3 class="font-black text-xs uppercase mb-2 text-orange-700"><i class="fas fa-bolt mr-2"></i> Alerta de Raios (RINDAT)</h3>
-                <p class="text-[10px] text-gray-500 mb-4 uppercase font-bold tracking-tight">Monitoramento em tempo real UFPEL/CPPMET para segurança em campo.</p>
-                <a href="https://wp.ufpel.edu.br/cppmet/descargas-eletricas-mapa/" target="_blank" class="block w-full bg-orange-600 text-white text-center py-3 rounded-xl font-black text-xs shadow-lg hover:bg-orange-700 transition">ABRIR MAPA DE DESCARGAS</a>
+                <h3 class="font-black text-xs uppercase mb-2 text-orange-700"><i class="fas fa-bolt mr-2 text-yellow-500"></i> Descargas RINDAT</h3>
+                <p class="text-[10px] text-gray-500 mb-4 uppercase font-bold tracking-tight leading-relaxed">Mapa de raios em tempo real (UFPEL) para segurança operacional.</p>
+                <a href="https://wp.ufpel.edu.br/cppmet/descargas-eletricas-mapa/" target="_blank" class="block w-full bg-orange-600 text-white text-center py-3 rounded-xl font-black text-xs shadow-lg hover:bg-orange-700 transition">ABRIR MONITOR DE RAIOS</a>
             </div>
             <div class="agro-card p-6 border-t-slate-800">
-                <h3 class="font-black text-xs uppercase mb-4">Portais de Inteligência</h3>
+                <h3 class="font-black text-xs uppercase mb-4">Fontes do Mercosul</h3>
                 <div class="grid grid-cols-1 gap-2">
                     <a href="https://portal.inmet.gov.br/" target="_blank" class="bg-green-700 text-white text-center py-2 rounded font-bold text-[10px] uppercase">INMET (Brasil)</a>
                     <a href="https://www.smn.gob.ar/" target="_blank" class="bg-blue-700 text-white text-center py-2 rounded font-bold text-[10px] uppercase">SMN (Argentina)</a>
@@ -52,36 +52,49 @@
             </div>
         </section>
 
-        <section class="agro-card p-8 border-t-amber-500">
-            <div class="flex justify-between items-center border-b pb-4 mb-6">
-                <h2 class="text-xl font-black uppercase text-slate-800"><i class="fas fa-seedling mr-2 text-green-600"></i> Monitor Safra Soja & Milho</h2>
-                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-1 rounded">FEVEREIRO 2026</span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <p class="text-[9px] font-black text-gray-400 uppercase">Status do Ciclo</p>
-                    <h4 class="font-bold text-sm text-amber-700 uppercase">Manejo de Final de Ciclo</h4>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section class="agro-card p-8 border-t-red-600">
+                <h2 class="text-xl font-black uppercase text-slate-800 mb-6 flex items-center"><i class="fas fa-microscope mr-3 text-red-600"></i> Sanidade: Controle do Carrapato</h2>
+                <div class="space-y-4 text-xs">
+                    <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                        <h4 class="font-black text-red-800 uppercase mb-2">Protocolo de Resistência</h4>
+                        <p class="font-bold leading-relaxed">Solicite o <strong>Biocarrapaticidograma</strong> para identificar a eficácia dos produtos em sua propriedade. Não aplique sem saber se o carrapato é resistente.</p>
+                    </div>
+                    <ul class="space-y-2 font-bold text-gray-600">
+                        <li class="flex items-start"><i class="fas fa-check-circle mr-2 mt-1 text-green-600"></i> Ciclo Parasitário: 21 dias sobre o animal.</li>
+                        <li class="flex items-start"><i class="fas fa-check-circle mr-2 mt-1 text-green-600"></i> Ambiente: 95% da infestação está na pastagem.</li>
+                        <li class="flex items-start"><i class="fas fa-check-circle mr-2 mt-1 text-green-600"></i> Prevenção: Vacinação contra Brucelose (B19) em fêmeas.</li>
+                    </ul>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <p class="text-[9px] font-black text-gray-400 uppercase">Plantio Extraordinário</p>
-                    <h4 class="font-bold text-sm text-green-700 uppercase">Janela até 15/FEV</h4>
+            </section>
+
+            <section class="agro-card p-8 border-t-amber-600">
+                <h2 class="text-xl font-black uppercase text-slate-800 mb-6 flex items-center"><i class="fas fa-calendar-check mr-3 text-amber-600"></i> Agenda Agro 2026</h2>
+                <div class="space-y-3 h-48 overflow-y-auto pr-2">
+                    <div class="agenda-item">
+                        <span class="font-black text-amber-800">16-26/JUL:</span> <strong>Palermo (AR)</strong> - Exposición Rural
+                    </div>
+                    <div class="agenda-item">
+                        <span class="font-black text-amber-800">29/AGO - 06/SET:</span> <strong>Expointer (BR)</strong> - Esteio/RS
+                    </div>
+                    <div class="agenda-item">
+                        <span class="font-black text-amber-800">11-20/SET:</span> <strong>Expo Prado (UY)</strong> - Montevideo
+                    </div>
+                    <div class="agenda-item">
+                        <span class="font-black text-amber-800">20/ABR - 20/MAI:</span> <strong>Santiago (RS)</strong> - Remate de Terneiros
+                    </div>
+                    <div class="agenda-item">
+                        <span class="font-black text-amber-800">SET-DEZ:</span> <strong>Uruguaiana (RS)</strong> - Ciclo de Primavera
+                    </div>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <p class="text-[9px] font-black text-gray-400 uppercase">Alerta Sanitário</p>
-                    <h4 class="font-bold text-sm text-red-600 uppercase">Monitorar Percevejos</h4>
-                </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <p class="text-[9px] font-black text-gray-400 uppercase">Risco Climático</p>
-                    <h4 class="font-bold text-sm text-blue-600 uppercase">Déficit Hídrico</h4>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <section class="space-y-6">
-            <h2 class="text-xl font-black uppercase text-slate-700 flex items-center"><i class="fas fa-book-open mr-2 text-green-700"></i> Manuais de Referência Mundial</h2>
+            <h2 class="text-xl font-black uppercase text-slate-700 flex items-center"><i class="fas fa-dna mr-2 text-green-700"></i> Genética e Padrões Raciais</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-black text-[10px] uppercase text-gray-400 mb-4">Gado de Elite: Brangus</h4>
+                    <h4 class="font-black text-[10px] uppercase text-gray-400 mb-4">Brangus (Bovinos)</h4>
                     <div class="grid grid-cols-2 gap-2">
                         <a href="https://www.brangus.org.br/manual-de-visita-de-inspecao-tecnica-1" target="_blank" class="flag-btn">🇧🇷 BR</a>
                         <a href="https://brangus.org.ar/la-raza/patron-racial-2000/" target="_blank" class="flag-btn">🇦🇷 AR</a>
@@ -90,7 +103,7 @@
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-black text-[10px] uppercase text-gray-400 mb-4">Equinos: Crioulo/Quarto de Milha</h4>
+                    <h4 class="font-black text-[10px] uppercase text-gray-400 mb-4">Crioulo (Equinos)</h4>
                     <div class="grid grid-cols-2 gap-2">
                         <a href="https://www.cavalocrioulo.org.br/studbook/regulamentos" target="_blank" class="flag-btn">🇧🇷 BR</a>
                         <a href="https://www.caballoscriollos.com/espanol/standard_racial.php" target="_blank" class="flag-btn">🇦🇷 AR</a>
@@ -99,7 +112,7 @@
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-black text-[10px] uppercase text-gray-400 mb-4">Ovinos: Merino/Corriedale</h4>
+                    <h4 class="font-black text-[10px] uppercase text-gray-400 mb-4">Ovinos (Várias Raças)</h4>
                     <div class="grid grid-cols-2 gap-2">
                         <a href="https://www.arcoovinos.com.br/PadraoRacial" target="_blank" class="flag-btn">🇧🇷 BR</a>
                         <a href="https://www.merino.org.ar/institucional/la-raza-dohne-merino/manual-dohne-merino/" target="_blank" class="flag-btn">🇦🇷 AR</a>
@@ -112,37 +125,30 @@
 
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border-2 border-green-700 relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-green-700 text-white text-[8px] px-3 py-1 font-black uppercase">Loja do Produtor</div>
-                <h3 class="font-black text-gray-800 text-sm uppercase mb-6"><i class="fab fa-amazon mr-2 text-orange-500"></i> Ferramentas e Insumos Recomendados</h3>
+                <div class="absolute top-0 right-0 bg-green-700 text-white text-[8px] px-3 py-1 font-black uppercase">Loja Associada</div>
+                <h3 class="font-black text-gray-800 text-sm uppercase mb-6"><i class="fab fa-amazon mr-2 text-orange-500"></i> Insumos e Ferramentas Rural</h3>
                 <div class="grid grid-cols-1 gap-3">
                     <a href="Https://amzn.to/4aiFHXP" target="_blank" class="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-green-700 transition">
                         <i class="fas fa-toolbox text-slate-600 mr-4 text-xl"></i>
                         <div>
-                            <p class="text-xs font-black text-slate-800 uppercase leading-none">Insumos e Ferramentas Safra 2026</p>
-                            <p class="text-[9px] text-green-600 font-bold mt-1 uppercase">Ofertas Exclusivas via Link de Afiliado</p>
+                            <p class="text-xs font-black text-slate-800 uppercase leading-none">Ferramentas de Manejo</p>
+                            <p class="text-[9px] text-green-600 font-bold mt-1 uppercase">Link de Afiliado Santiago Agro</p>
                         </div>
                     </a>
-                    <a href="Https://amzn.to/4aiFHXP" target="_blank" class="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-green-700 transition">
-                        <i class="fas fa-boot text-slate-600 mr-4 text-xl"></i>
-                        <div>
-                            <p class="text-xs font-black text-slate-800 uppercase leading-none">Botas e Equipamentos de Proteção</p>
-                            <p class="text-[9px] text-green-600 font-bold mt-1 uppercase">Melhores Marcas para o Dia a Dia Rural</p>
-                        </div>
-                    </a>
-                    <a href="Https://amzn.to/4aiFHXP" target="_blank" class="mt-4 block w-full bg-orange-500 text-white text-center py-3 rounded-xl font-black text-[10px] uppercase shadow-lg hover:bg-orange-600 transition tracking-widest">
-                        ACESSAR LOJA COMPLETA AMAZON
+                    <a href="Https://amzn.to/4aiFHXP" target="_blank" class="mt-4 block w-full bg-orange-500 text-white text-center py-3 rounded-xl font-black text-[10px] uppercase shadow-lg hover:bg-orange-700 transition tracking-widest uppercase">
+                        ACESSAR LOJA AMAZON
                     </a>
                 </div>
             </div>
             
             <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl border-b-8 border-green-500">
-                <h3 class="font-black text-xs uppercase mb-6 tracking-widest"><i class="fas fa-calculator mr-2 text-green-400"></i> Simulador Financeiro Pecuária</h3>
+                <h3 class="font-black text-xs uppercase mb-6 tracking-widest"><i class="fas fa-calculator mr-2 text-green-400"></i> Calculadora Financeira</h3>
                 <div class="space-y-4">
-                    <input type="number" id="peso" class="w-full bg-slate-800 border-none p-4 rounded-xl text-sm focus:ring-2 focus:ring-green-500 outline-none" placeholder="Peso Vivo do Animal (kg)">
-                    <button onclick="calc()" class="w-full bg-green-600 py-4 rounded-xl font-black text-[11px] uppercase shadow-lg hover:bg-green-700 transition tracking-widest">Simular Valor Bruto de Venda</button>
+                    <input type="number" id="peso" class="w-full bg-slate-800 border-none p-4 rounded-xl text-sm focus:ring-2 focus:ring-green-500 outline-none" placeholder="Peso Vivo (kg)">
+                    <button onclick="calc()" class="w-full bg-green-600 py-4 rounded-xl font-black text-[11px] uppercase shadow-lg hover:bg-green-700 transition tracking-widest">Simular Valor Bruto</button>
                     <div id="res" class="hidden mt-4 text-center p-4 bg-slate-800 rounded-xl border border-slate-700">
                         <p id="arr" class="text-3xl font-black text-green-400 tracking-tighter"></p>
-                        <p class="text-[10px] text-gray-500 uppercase mt-2 font-bold italic">Ref: R$ 330,00/@ • Rendimento 50%</p>
+                        <p class="text-[10px] text-gray-500 uppercase mt-2 font-bold italic tracking-widest">Ref: R$ 330,00/@ • Rendimento 50%</p>
                     </div>
                 </div>
             </div>
@@ -150,7 +156,7 @@
 
     </main>
 
-    <footer class="bg-white p-12 mt-12 border-t text-center space-y-6">
+    <footer class="bg-white p-12 mt-12 border-t text-center space-y-4">
         <div class="flex justify-center gap-6 text-slate-200 text-2xl">
             <i class="fas fa-cow"></i><i class="fas fa-horse"></i><i class="fas fa-seedling"></i><i class="fas fa-sheep"></i>
         </div>
